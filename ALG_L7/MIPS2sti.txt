@@ -1,0 +1,183 @@
+addi $t5, $zero, 48
+		addi $t4, $zero, 10 
+		add $v0, $zero, $zero
+		Loop:
+		lbu $t0, 0($a0)
+		beq $t0, $zero, Done
+		sltu $t1, $t0, $t5
+		bne $t1, $zero, Error
+		addi $t2, $zero, 58
+		beq $t1, $zero, Error
+		addi $t0, $t0, -48
+		mul $v0, $v0, $t4
+		add $v0, $v0, $t0
+		
+		#j Loop
+		
+	Error:
+		addi $v0, $zero, -1
+		li $v0, 1
+		syscall 
+		jr $ra
+		
+	
+	Done:
+		li $v0, 1
+		syscall 
+	
+		jr $r
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+slt $t4, $t1, $t6
+		bne $t4, $zero, Break
+		
+		slt $t4, $t1, $t7
+		beq $t4, $zero, Break
+		
+		subu $t1, $t1, $t6
+		mul $v0, $v0, 10
+			
+		add $v0, $v0, $t1
+		
+		addiu $t0, $t0, 1
+			
+			
+		lbu $t1, 0($t0)
+			
+			
+		bne $t1, $zero, Loop
+			
+		bne $t3, $t5, Neg
+			
+			
+		jr $ra
+		
+		
+		Neg:
+			sub $v0, $zero, $v0
+			jr $ra
+			
+			
+			
+			
+			
+		
+		Break:
+			li $v0, -1
+			jr $ra
+		
+			
+	
+	
+		
+	______________________________________________________________________________________
+
+.data
+	mess: .asciiz "\nInput String: "
+	str: .space 20
+	
+
+.text
+
+	main:
+		
+		jal user_input	#user input procedure
+		jal str_int #string to int procedure
+		
+		
+		move $a0, $v0
+		li $v0, 1
+		syscall
+
+	
+
+	user_input:
+	#Display Message
+	
+		li $v0, 4
+		la $a0, mess
+		syscall
+		
+		#User Input
+		li $v0, 8
+		la $a0, str
+		li $a1, 20
+		syscall
+		
+		jr $ra
+	
+	str_int:
+		
+		
+		
+		
+
+		li $t6, 0x30 #0
+		li $t7, 0x39#9
+		li $t5, 0x2D#-
+		
+		
+		li $v0, 0
+		move $t0, $a0
+	
+		lb $t1, ($t0)
+		#add $t7, $t1, $zero
+		
+		
+		
+	Loop:
+		
+		beq $t1, $1, Break
+		
+		#beq $t7, $t5, Temp
+		blt $t1, $t6, Null
+		bgt $t1, $t7, Null
+		#Temp:
+		subu $t1, $t1, $t6
+		
+		mul $v0, $v0, 10
+		add $v0, $v0, $t1
+		
+		addiu $t0, $t0, 1
+		lb $t1, ($t0)
+		
+		bne $t1, $zero, Loop
+		#beq $t7, $t5, Neg
+		jr $ra
+		
+	Null: 	
+		
+		li $v0, -1
+		jr $ra
+		
+	#Neg: 
+		#sub $v0, $zero, $v0
+		#jr $ra
+		
+		
+	Break:
+		jr $ra
+			
+					
+
+		
+		
+		
+		
+		
+	

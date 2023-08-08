@@ -1,0 +1,52 @@
+lw $t0, 0($s0)
+sll $t0, $t0, 3
+sw $t0, 0($s1)
+
+lw $t0, 0($s0)
+srl $t0, $t0, 4
+sw $t0, 0($s2)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+lw $t0, 0($s0)
+sll $t0, $t0, 3
+sw $t0, 4($s0)
+
+lw $t0, 0($s0)
+srl $t0, $t0, 4
+sw $t0, 8($s0)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+addi $t0, $zero, 1
+addi $v0, $zero, 4
+add $s3, $s1, $zero
+lw $t9, 0($s1)
+sw $t9, 0($s3)
+
+
+while:
+slt $t1,$t0, $s0
+
+
+beq $t1, $zero, L1
+
+add $s2, $s3, $v0
+
+lw $t6, 0($s2)
+lw $t7, 0($s3)
+
+add $t8, $t6, $t7
+sw $t8, 0($s2)
+
+
+addi $t0, $t0, 1
+add $s3, $s3, $v0
+
+j while
+
+
+
+
+L1: j Exit
+
+Exit:
